@@ -1,6 +1,8 @@
 package server;
 
 import beans.CountryBean;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import dao.CountryDAO;
 import entities.Country;
 
@@ -30,12 +32,28 @@ public class DataBaseServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            InitialContext ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/example");
+//            InitialContext ctx = new InitialContext();
+            /*
+            <Resource name="jdbc/example" auth="Container" type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="alexandr" password="1890sqlpas" driverClassName="org.postgresql.Driver"
+               url="jdbc:postgresql://localhost:5432/watches"/>
+             */
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl("jdbc:postgresql://localhost:5432/watches");
+            config.setUsername("alexandr");
+            config.setPassword("1890sqlpas");
+            config.setDriverClassName("org.postgresql.Driver");
+            config.addDataSourceProperty( "cachePrepStmts" , "true" );
+            config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+            config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+            HikariDataSource ds = new HikariDataSource(config);
+//            DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/example");
             Connection connection = ds.getConnection();
             countryDAO = new CountryDAO(connection);
             // надо добавить драйвер
-        } catch (NamingException | SQLException e) {
+        } catch (SQLException e) {
+//        } catch (NamingException | SQLException e) {
             e.printStackTrace();
         }
     }

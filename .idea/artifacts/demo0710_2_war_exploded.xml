@@ -44,6 +44,8 @@
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.5" />
           <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-interpolation:1.24" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+          <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:2.6.1" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.22" />
         </element>
       </element>
       <element id="directory" name="META-INF">
